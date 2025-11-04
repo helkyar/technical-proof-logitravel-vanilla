@@ -1,14 +1,17 @@
 export function addItemListeners(item: HTMLLIElement) {
+  const itemList = item.parentElement as HTMLUListElement;
   item.addEventListener("click", () => {
     item.classList.toggle("selected");
     const isSelected = item.getAttribute("aria-selected") === "true";
     item.setAttribute("aria-selected", String(!isSelected));
     disableDelete();
+    saveToLocalStorage(itemList, "currentItem");
   });
   item.addEventListener("dblclick", () => {
-    saveToLocalStorage(item.parentElement as HTMLUListElement);
+    saveToLocalStorage(itemList);
     item.remove();
     disableDelete();
+    saveToLocalStorage(itemList, "currentItem");
   });
 }
 
