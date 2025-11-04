@@ -13,5 +13,6 @@ export function removeItem(
         disableDelete();
       }
     });
+    saveToLocalStorage(itemList, "currentItem");
   });
 }

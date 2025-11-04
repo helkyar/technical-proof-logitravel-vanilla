@@ -5,6 +5,7 @@ import { addItem } from "./components/addItem";
 import { selectItems } from "./components/selectItems";
 import { undo } from "./components/undo";
 import "./style.css";
+import { loadFromLocalStorage } from "./helpers/utils";
 
 const title = "This is a Technical proof";
 const headerContent =
@@ -65,21 +66,24 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
     </div>
   </div>
 `;
-const modal = document.querySelector<HTMLDivElement>('#addModal')!
-const closeBtn = document.querySelector<HTMLButtonElement>('#closeModal')!
-const openBtn = document.querySelector<HTMLButtonElement>('#openModal')!
-const addBtn = document.querySelector<HTMLButtonElement>('#addItem')!
-const deleteBtn = document.querySelector<HTMLButtonElement>('#delete')!
-const undoBtn = document.querySelector<HTMLButtonElement>('#undo')!
-const itemList = document.querySelector<HTMLUListElement>('.item-list')!
-const form = document.querySelector<HTMLFormElement>('#addItemForm')!
-const input = document.querySelector<HTMLInputElement>('#newItem')!
-const items = itemList.querySelectorAll<HTMLLIElement>('.item')
-const selectedItems = () => itemList.querySelectorAll<HTMLLIElement>('.selected')
+const modal = document.querySelector<HTMLDivElement>("#addModal")!;
+const closeBtn = document.querySelector<HTMLButtonElement>("#closeModal")!;
+const openBtn = document.querySelector<HTMLButtonElement>("#openModal")!;
+const addBtn = document.querySelector<HTMLButtonElement>("#addItem")!;
+const deleteBtn = document.querySelector<HTMLButtonElement>("#delete")!;
+const undoBtn = document.querySelector<HTMLButtonElement>("#undo")!;
+const itemList = document.querySelector<HTMLUListElement>(".item-list")!;
+const form = document.querySelector<HTMLFormElement>("#addItemForm")!;
+const input = document.querySelector<HTMLInputElement>("#newItem")!;
+const items = itemList.querySelectorAll<HTMLLIElement>(".item");
+const selectedItems = () =>
+  itemList.querySelectorAll<HTMLLIElement>(".selected");
 
-openModal(openBtn, modal, input)
-closeModal(closeBtn, modal)
-addItem(addBtn, form, itemList)
-selectItems(items)
-removeItem(deleteBtn, itemList, selectedItems)
-undo(undoBtn, itemList)
+loadFromLocalStorage(itemList, "currentItem");
+
+openModal(openBtn, modal, input);
+closeModal(closeBtn, modal);
+addItem(addBtn, form, itemList);
+selectItems(items);
+removeItem(deleteBtn, itemList, selectedItems);
+undo(undoBtn, itemList);

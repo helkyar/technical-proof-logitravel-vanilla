@@ -18,6 +18,7 @@ export function addItem(
       itemList?.appendChild(newItem);
       addItemListeners(newItem);
       form.reset();
+      saveToLocalStorage(itemList, "currentItem");
     }
   });
 }

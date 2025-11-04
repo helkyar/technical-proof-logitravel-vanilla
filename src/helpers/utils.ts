@@ -23,31 +23,39 @@ export function disableDelete() {
   }
 }
 
-export function saveToLocalStorage(itemList: HTMLUListElement) {
+type Key = "prevItem" | "currentItem";
+export function saveToLocalStorage(
+  itemList: HTMLUListElement,
+  key: Key = "prevItem"
+) {
   const items = itemList.querySelectorAll<HTMLLIElement>(".item");
   const itemsArray = Array.from(items).map((item) => ({
     text: item.textContent,
     selected: item.getAttribute("aria-selected") === "true",
   }));
-  localStorage.setItem("itemList", JSON.stringify(itemsArray));
+  localStorage.setItem(key, JSON.stringify(itemsArray));
 }
 
-export function loadFromLocalStorage(itemList: HTMLUListElement) {
-    const data = localStorage.getItem("itemList");
-    if (data) {
-        const itemsArray: { text: string | null; selected: boolean }[] = JSON.parse(data);
-        itemList.innerHTML = "";
-        itemsArray.forEach((itemData) => {
-        const newItem = document.createElement("li");
-        newItem.textContent = itemData.text;
-        newItem.setAttribute("aria-selected", String(itemData.selected));
-        newItem.classList.add("item");
-        if (itemData.selected) {
-            newItem.classList.add("selected");
-        }
-        itemList.appendChild(newItem);
-        addItemListeners(newItem);
-        });
-        disableDelete();
-    }
-    }
+export function loadFromLocalStorage(
+  itemList: HTMLUListElement,
+  key: Key = "prevItem"
+) {
+  const data = localStorage.getItem(key);
+  if (data) {
+    const itemsArray: { text: string | null; selected: boolean }[] =
+      JSON.parse(data);
+    itemList.innerHTML = "";
+    itemsArray.forEach((itemData) => {
+      const newItem = document.createElement("li");
+      newItem.textContent = itemData.text;
+      newItem.setAttribute("aria-selected", String(itemData.selected));
+      newItem.classList.add("item");
+      if (itemData.selected) {
+        newItem.classList.add("selected");
+      }
+      itemList.appendChild(newItem);
+      addItemListeners(newItem);
+    });
+    disableDelete();
+  }
+}
